@@ -7,57 +7,51 @@ import './App.css';
   //aka pass info to state to be rendered in display.js
 
 
-  //------------State Rules---------------
-
-
-//-[] Badclick !!! a `foul` increases strikes up to 2. 
-  //With no strikes, a foul makes it 1 strike. 
-  //With 1 strike, a foul makes it 2 strikes. 
-  //With two strikes a foul has no effect, count stays at 2 strikes.
-//----------
-
-
-
-
 function Dashboard(){
-  const [balls, setBalls] = useState({ballCounter: 0})  //okclick 
-  const [strikes, setStrikes] = useState({strikeCounter: 0}) //okclick
-  const [hits, setHits] = useState({hitCounter: 0}) //hitclick //DONE
-  const [fouls, setFouls] = useState({foulCounter: 0}) //badclick
+  const [balls, setBalls] = useState(0)  //okclick 
+  const [strikes, setStrikes] = useState(0) //okclick
+  const [hits, setHits] = useState(0) //hitclick //DONE
+  const [fouls, setFouls] = useState(0) //badclick
 
-  // -[] balls and strikes reset to 0 when a player reaches 3 strikes or 4 balls.
-  //-[] balls and strikes reset to 0 when a `hit` is recorded.
-  console.log('balls', balls)
-  if (balls.ballCounter === 5 || strikes.strikeCounter === 4 || hits.hitCounter === 1){
-    setBalls({ballCounter: 0})
-    setStrikes({strikeCounter: 0})
-  }
-
- 
-
-
+//-[] balls and strikes reset to 0 when a `hit` is recorded
   const handleHitClick = () => {
-    const newHitValue = hits.hitCounter + 1
-    setHits({hitCounter: newHitValue})
+    setHits(hits + 1)
+    setStrikes(0)
+    setBalls(0)
     console.log('hit was clicked')
   }
 
+  // -[] balls reset to 0 when a player reaches4 balls.
   const handleBallClick = () => {
-    const newBallValue = balls.ballCounter + 1
-    setBalls({ballCounter: newBallValue})
+    if( balls < 4){
+      setBalls(balls + 1)
+    } else{
+      setBalls(0)}
     console.log('Ball was clicked')
-    
   }
 
+  // -[] strikes reset to 0 when a player reaches 3 strikes.
   const handleStrikeClick = () => {
-    const newStrikeValue = strikes.strikeCounter + 1
-    setStrikes({strikeCounter: newStrikeValue})
+    if (strikes < 3) {
+      setStrikes(strikes + 1);
+    } else {
+      setStrikes(0);}
+    //const newStrikeValue = strikes.strikeCounter + 1
     console.log('strike was clicked')
   }
 
+  //With no strikes, a foul makes it 1 strike. 
+  //With 1 strike, a foul makes it 2 strikes. 
+  //With two strikes a foul has no effect, count stays at 2 strikes
   const handleBadClick = () => {
-    const newFoulValue = fouls.foulCounter + 1
-    setFouls({foulCounter: newFoulValue})
+    if(strikes === 0){
+      setStrikes(strikes + 1)
+      setFouls(fouls + 1)}
+    else if(strikes === 1){
+      setStrikes(strikes + 2)
+      setFouls(fouls + 1)}
+    else{
+      setFouls(fouls + 1)}
     console.log('foul was clicked')
   }
 
@@ -69,16 +63,16 @@ function Dashboard(){
       <button onClick={()=>handleBadClick()} lassName='button'> Foul </button> 
       <button onClick={()=>handleHitClick()} className='button'> Hit </button>
 
-      {balls.ballCounter}
-      {strikes.strikeCounter}
-      {fouls.foulCounter}
-      {hits.hitCounter}
+      Balls: {balls}
+      Strikes: {strikes}
+      Fouls: {fouls}
+      Hits: {hits}
     
     
     
     </>
   )
-  
+
 }
 
 function App() {
