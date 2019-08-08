@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Display from './Components/Display'
 import './App.css';
 
 
@@ -7,13 +8,17 @@ import './App.css';
   //aka pass info to state to be rendered in display.js
 
 
+
+
 function Dashboard(){
   const [balls, setBalls] = useState(0)  //okclick 
   const [strikes, setStrikes] = useState(0) //okclick
   const [hits, setHits] = useState(0) //hitclick //DONE
   const [fouls, setFouls] = useState(0) //badclick
 
-//-[] balls and strikes reset to 0 when a `hit` is recorded
+  const scores = {balls, strikes, hits, fouls}
+
+  //-[] balls and strikes reset to 0 when a `hit` is recorded
   const handleHitClick = () => {
     setHits(hits + 1)
     setStrikes(0)
@@ -62,12 +67,6 @@ function Dashboard(){
       <button onClick={()=>handleBallClick()} className='button'> Ball </button>
       <button onClick={()=>handleBadClick()} lassName='button'> Foul </button> 
       <button onClick={()=>handleHitClick()} className='button'> Hit </button>
-
-      Balls: {balls}
-      Strikes: {strikes}
-      Fouls: {fouls}
-      Hits: {hits}
-    
     
     
     </>
@@ -75,10 +74,11 @@ function Dashboard(){
 
 }
 
-function App() {
+function App(...scores) {
   return (
     <div className="App">
-     <Dashboard/>
+     <Dashboard />
+     <Display {...scores} />
     </div>
   );
 }
